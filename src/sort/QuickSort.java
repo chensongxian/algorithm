@@ -6,6 +6,41 @@ import java.util.Arrays;
  * 快排，最差情况复杂度O(N²),平均情况N*O(logN)
  */
 public class QuickSort {
+
+    public static int partition_1(int[] arr,int l,int r){
+        //固定的切分方式
+       int pivot = arr[l+(int)(Math.random()*(r-l+1))];
+       while (l<=r){
+           /*
+            * arr[l]小于划分值时,l++继续往右扩
+            * arr[r]大于划分值时，r--继续往左扩
+            * 两个while循环之后,arr[l]一定是大于pivot的，arr[r]一定是小于pivot的
+            * 如果还满足l<=r，则交换l和r两个位置的数，l++和r--之后继续while循环
+            */
+           while (arr[l]<pivot){
+               l++;
+           }
+           while (arr[r]>pivot){
+               r--;
+           }
+           if(l<=r){
+               swap(arr,l,r);
+               l++;
+               r--;
+           }
+       }
+       return l;
+    }
+
+    public static void sort(int[] arr,int l ,int r){
+        if(l>=r){
+            return ;
+        }
+        int index=partition_1(arr,l,r);
+        sort(arr,l,index-1);
+        sort(arr,index,r);
+    }
+
     public static void quickSort(int[] arr){
         if(arr==null||arr.length<2){
             return;
@@ -109,13 +144,13 @@ public class QuickSort {
     // 测试
     public static void main(String[] args) {
         int testTime = 500000;
-        int maxSize = 100;
-        int maxValue = 100;
+        int maxSize = 50;
+        int maxValue = 50;
         boolean succeed = true;
         for (int i = 0; i < testTime; i++) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
-            quickSort(arr1);
+            sort(arr1,0,arr1.length-1);
             comparator(arr2);
             if (!isEqual(arr1, arr2)) {
                 succeed = false;
