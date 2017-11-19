@@ -7,38 +7,78 @@ import java.util.Arrays;
  */
 public class QuickSort {
 
-    public static int partition_1(int[] arr,int l,int r){
-        //固定的切分方式
-       int pivot = arr[l+(int)(Math.random()*(r-l+1))];
-       while (l<=r){
-           /*
-            * arr[l]小于划分值时,l++继续往右扩
-            * arr[r]大于划分值时，r--继续往左扩
-            * 两个while循环之后,arr[l]一定是大于pivot的，arr[r]一定是小于pivot的
-            * 如果还满足l<=r，则交换l和r两个位置的数，l++和r--之后继续while循环
-            */
-           while (arr[l]<pivot){
-               l++;
-           }
-           while (arr[r]>pivot){
-               r--;
-           }
-           if(l<=r){
-               swap(arr,l,r);
-               l++;
-               r--;
-           }
-       }
-       return l;
-    }
 
-    public static void sort(int[] arr,int l ,int r){
+
+    public static void quickSort_1(int[] arr, int l , int r){
         if(l>=r){
             return ;
         }
         int index=partition_1(arr,l,r);
-        sort(arr,l,index-1);
-        sort(arr,index,r);
+        quickSort_1(arr,l,index-1);
+        quickSort_1(arr,index,r);
+    }
+
+    public static int partition_1(int[] arr,int l,int r){
+        //固定的切分方式
+        int pivot = arr[l+(int)(Math.random()*(r-l+1))];
+        while (l<=r){
+           /*
+            * arr[l]小于划分值时,l++继续往右扩
+            * arr[r]大于划分值时，r--继续往左扩
+            * 两个while循环之后,arr[l]一定是大于pivot的，arr[r]一定是小于pivot的
+            * 如果还满足l<=r，则交换l和r两个位置的数，l++和r--之后继续while循环()(
+            */
+            while (arr[l]<pivot){
+                l++;
+            }
+            while (arr[r]>pivot){
+                r--;
+            }
+            if(l<=r){
+                swap(arr,l,r);
+                l++;
+                r--;
+            }
+        }
+        return l;
+    }
+
+    public static void quickSort_2(int[] arr,int l,int r){
+        if(l>=r){
+            return;
+        }
+        int index=partition_2(arr,l,r);
+        quickSort_2(arr,l,index-1);
+        quickSort_2(arr,index+1,r);
+    }
+
+    public static int partition_2(int[] arr,int l,int r){
+        //当把arr[l]当做中轴并赋值给pivot时，
+        // arr[l]上的值已经失去意义
+        //相当于把arr[l]的位置空了出来
+        int pivot = arr[l];
+        int low = l;
+        int high = r;
+        //当小于区和大于区没有碰撞时，继续while循环
+        while (low<high){
+            //arr[high]>=pivot时表明，arr[high]的位置是正确的
+            //此时把high--往左推进，当while循环结束之后arr[high]一定是小于pivot的
+            while (low<high&&arr[high]>=pivot){
+                high--;
+            }
+            //因为此时arr[high]一定是小于pivot的，把他放在小于区
+            //注意：此时一定会有困惑，arr[low]原有值赋值之后被覆盖了，不是会有问题吗？
+            //其实arr[low]之前的值早已被移到了其他位置，arr[low]上的值相当于空出来了
+            //第一次循环时arr[low]就是pivot
+            arr[low]=arr[high];
+            //同上，low++小于区往右推荐
+            while (low<high&&arr[low]<pivot){
+                low++;
+            }
+            arr[high]=arr[low];
+        }
+        arr[low]=pivot;
+        return low;
     }
 
     public static void quickSort(int[] arr){
@@ -150,7 +190,7 @@ public class QuickSort {
         for (int i = 0; i < testTime; i++) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
-            sort(arr1,0,arr1.length-1);
+            quickSort_2(arr1,0,arr1.length-1);
             comparator(arr2);
             if (!isEqual(arr1, arr2)) {
                 succeed = false;
