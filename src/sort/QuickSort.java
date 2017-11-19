@@ -202,6 +202,7 @@ public class QuickSort {
         int[] arr = generateRandomArray(maxSize, maxValue);
         printArray(arr);
         quickSort(arr);
+
         printArray(arr);
     }
 }
