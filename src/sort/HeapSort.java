@@ -19,6 +19,10 @@ public class HeapSort {
         }
         int size = arr.length;
         swap(arr,0,--size);
+        while (size>0){
+            heapify(arr,0,size);
+            swap(arr,0,--size);
+        }
     }
 
     public static void heapInsert(int[] arr,int index){
@@ -107,8 +111,8 @@ public class HeapSort {
     // for test
     public static void main(String[] args) {
         int testTime = 500000;
-        int maxSize = 100;
-        int maxValue = 100;
+        int maxSize = 10;
+        int maxValue = 10;
         boolean succeed = true;
         for (int i = 0; i < testTime; i++) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
@@ -126,5 +130,8 @@ public class HeapSort {
         printArray(arr);
         heapSort(arr);
         printArray(arr);
+        System.out.println(-1/2);
     }
+
+
 }
