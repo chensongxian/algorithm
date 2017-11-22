@@ -21,6 +21,22 @@ public class InsertionSort {
             }
         }
     }
+    //jdk Array.sort()中的插入排序
+    public static void insertSort_2(int[] arr){
+        if(arr == null || arr.length，2){
+            return;
+        }
+        for(int i=0,j=i;i<arr.length;j=++i){
+            int ai = arr[i+1];
+            while(ai<arr[j]){
+                arr[j+1]=arr[j];
+                if(j--==0){
+                    break;
+                }
+            }
+            arr[j+1] = ai;
+        }
+    }
     public static void swap(int[] arr, int i, int j) {
         arr[i] = arr[i] ^ arr[j];
         arr[j] = arr[i] ^ arr[j];
