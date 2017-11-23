@@ -17,6 +17,12 @@ public class HeapSort {
         for(int i=0;i<arr.length;i++){
             heapInsert(arr,i);
         }
+        /*
+         * 通过构建大根堆，arr[0]永远是最大的值
+         * 通过把arr[0]和arr[--size]做交换，那么arr[--size]变成了最大值，
+         * 也就是说在这个过程中已经相当于做选择排序，把较大的数不断往后放
+         * 同时在把arr[0]和arr[--size]交换之后，做heapify调整已保证arr[0]位置的最大
+         */
         int size = arr.length;
         swap(arr,0,--size);
         while (size>0){
@@ -32,6 +38,12 @@ public class HeapSort {
         }
     }
 
+    /**
+     * 把arr[index]与其子节点比较做下沉处理，到最后size内重新成为一个大根堆，即arr[index]再次成为最值
+     * @param arr
+     * @param index
+     * @param size
+     */
     public static void heapify(int[] arr,int index,int size){
         int left = index*2+1;
         while (left<size){
@@ -44,6 +56,8 @@ public class HeapSort {
             index = largest;
             left = index * 2 + 1;
         }
+        System.out.println("下沉:"+arr[index]);
+        printArray(arr);
     }
 
     public static void swap(int[] arr, int i, int j) {
@@ -114,23 +128,23 @@ public class HeapSort {
         int maxSize = 10;
         int maxValue = 10;
         boolean succeed = true;
-        for (int i = 0; i < testTime; i++) {
-            int[] arr1 = generateRandomArray(maxSize, maxValue);
-            int[] arr2 = copyArray(arr1);
-            heapSort(arr1);
-            comparator(arr2);
-            if (!isEqual(arr1, arr2)) {
-                succeed = false;
-                break;
-            }
-        }
+//        for (int i = 0; i < testTime; i++) {
+//            int[] arr1 = generateRandomArray(maxSize, maxValue);
+//            int[] arr2 = copyArray(arr1);
+//            heapSort(arr1);
+//
+//            comparator(arr2);
+//            if (!isEqual(arr1, arr2)) {
+//                succeed = false;
+//                break;
+//            }
+//        }
         System.out.println(succeed ? "Nice!" : "Fucking fucked!");
 
         int[] arr = generateRandomArray(maxSize, maxValue);
         printArray(arr);
         heapSort(arr);
         printArray(arr);
-        System.out.println(-1/2);
     }
 
 
