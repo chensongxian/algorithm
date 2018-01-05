@@ -1,6 +1,9 @@
 package sort;
 
+import java.rmi.Naming;
 import java.util.Arrays;
+
+import static sort.ArrayUtils.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,23 +14,44 @@ import java.util.Arrays;
  */
 public class InsertionSort {
 
+    /**
+     * 进行插入排序
+     * @param arr
+     */
     public static void insertSort(int[] arr){
-        if(arr==null||arr.length<2){
+        int minLength=2;
+        if(arr==null||arr.length<minLength){
             return;
         }
+        /*
+            每次将i之前的数值进行排序，i-1之前的是有序的
+            只需把第i个位置的数值插入之前已经排序的数值即可
+         */
         for(int i=1;i<arr.length;i++){
             for(int j=i-1;j>=0&&arr[j]>arr[j+1];j--){
                 swap(arr,j,j+1);
             }
         }
     }
-    //jdk Array.sort()中的插入排序
-    public static void insertSort_2(int[] arr){
-        if(arr == null || arr.length，2){
+
+
+    /**
+     * jdk Array.sort()中的插入排序
+     * @param arr
+     */
+    public static void insertSortOfJdk(int[] arr){
+        int minLength=2;
+        if(arr == null || arr.length<minLength){
             return;
         }
-        for(int i=0,j=i;i<arr.length;j=++i){
+        for(int i=0,j=i;i<arr.length-1;j=++i){
+            //要插入的数值
             int ai = arr[i+1];
+            /*
+                当ai小于arr[j]时，把arr[j]往后移动
+                简而言之，下面这段代码就是把比ai大的数值统统往后移一位
+                把ai插入到合适的位置
+             */
             while(ai<arr[j]){
                 arr[j+1]=arr[j];
                 if(j--==0){
@@ -37,63 +61,8 @@ public class InsertionSort {
             arr[j+1] = ai;
         }
     }
-    public static void swap(int[] arr, int i, int j) {
-        arr[i] = arr[i] ^ arr[j];
-        arr[j] = arr[i] ^ arr[j];
-        arr[i] = arr[i] ^ arr[j];
-    }
 
-    //用以测试比较
-    public static void comparator(int[] arr) {
-        Arrays.sort(arr);
-    }
 
-    public static int[] generateRandomArray(int maxSize, int maxValue) {
-        int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = (int) ((maxValue + 1) * Math.random() + (int) (maxValue) * Math.random());
-        }
-        return arr;
-    }
-
-    public static int[] copyArray(int[] arr) {
-        if (arr == null) {
-            return null;
-        }
-        int[] res = new int[arr.length];
-        for (int i = 0; i < arr.length; i++) {
-            res[i] = arr[i];
-        }
-        return res;
-    }
-
-    public static boolean isEqual(int[] arr1, int[] arr2) {
-        if ((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null)) {
-            return false;
-        }
-        if (arr1 == null && arr2 == null) {
-            return true;
-        }
-        if (arr1.length != arr2.length) {
-            return false;
-        }
-        for (int i = 0; i < arr1.length; i++) {
-            if (arr1[i] != arr2[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static void printArray(int[] arr){
-        if(arr==null){
-            return;
-        }
-        for(int i=0;i<arr.length;i++){
-            System.out.println(arr[i]+" ");
-        }
-        System.out.println();
-    }
 
     // 测试
     public static void main(String[] args) {
@@ -104,7 +73,7 @@ public class InsertionSort {
         for (int i = 0; i < testTime; i++) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
-            insertSort(arr1);
+            insertSortOfJdk(arr1);
             comparator(arr2);
             if (!isEqual(arr1, arr2)) {
                 succeed = false;
@@ -113,9 +82,6 @@ public class InsertionSort {
         }
         System.out.println(succeed ? "Nice!" : "Fucking fucked!");
 
-        int[] arr = generateRandomArray(maxSize, maxValue);
-        printArray(arr);
-        insertSort(arr);
-        printArray(arr);
+
     }
 }

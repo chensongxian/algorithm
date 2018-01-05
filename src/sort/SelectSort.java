@@ -1,104 +1,57 @@
 package sort;
 
-import java.util.Arrays;
+import static sort.ArrayUtils.*;
 
+/**
+ * Created with IntelliJ IDEA.
+ *
+ * @Description: 选择排序，不稳定排序
+ * @Author: csx
+ * @Date: 2017-11-14
+ */
 public class SelectSort {
 
-    public static void selectSort_1(int[] arr){
-        if(arr==null||arr.length<2){
+
+    /**
+     * 进行选择排序
+      * @param arr
+     */
+    public static void selectSort(int[] arr){
+        int minLength=2;
+        if(arr==null||arr.length<minLength){
             return;
         }
+        /*
+            每趟选择最小的数值的位置,并进行交换
+            这样，每个位置就能在正确的位置上了
+         */
         for(int i=0;i<arr.length-1;i++){
             int minIndex=i;
             for(int j=i+1;j<arr.length;j++){
-//                if(arr[j]<arr[minIndex){
-//                    minIndex=j;
-//                }
-                minIndex = arr[j]<arr[minIndex]?j:minIndex;
+                minIndex=arr[j]<arr[minIndex]?j:minIndex;
             }
             swap(arr,i,minIndex);
         }
     }
 
-    public static void swap(int[] arr, int i, int j) {
-        int temp = arr[i];
-        arr[i]=arr[j];
-        arr[j]=temp;
-    }
-
-    //用以测试比较
-    public static void comparator(int[] arr) {
-        Arrays.sort(arr);
-    }
-
-    public static int[] generateRandomArray(int maxSize, int maxValue) {
-        int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = (int) ((maxValue + 1) * Math.random() + (int) (maxValue) * Math.random());
-        }
-        return arr;
-    }
-
-    public static int[] copyArray(int[] arr) {
-        if (arr == null) {
-            return null;
-        }
-        int[] res = new int[arr.length];
-        for (int i = 0; i < arr.length; i++) {
-            res[i] = arr[i];
-        }
-        return res;
-    }
-
-    public static boolean isEqual(int[] arr1, int[] arr2) {
-        if ((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null)) {
-            return false;
-        }
-        if (arr1 == null && arr2 == null) {
-            return true;
-        }
-        if (arr1.length != arr2.length) {
-            return false;
-        }
-        for (int i = 0; i < arr1.length; i++) {
-            if (arr1[i] != arr2[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static void printArray(int[] arr){
-        if(arr==null){
-            return;
-        }
-        for(int i=0;i<arr.length;i++){
-            System.out.println(arr[i]+" ");
-        }
-        System.out.println();
-    }
-
-    // 测试
     public static void main(String[] args) {
         int testTime = 500000;
-        int maxSize = 100;
+        int maxSize = 10;
         int maxValue = 100;
         boolean succeed = true;
         for (int i = 0; i < testTime; i++) {
             int[] arr1 = generateRandomArray(maxSize, maxValue);
             int[] arr2 = copyArray(arr1);
-            selectSort_1(arr1);
+            selectSort(arr1);
             comparator(arr2);
             if (!isEqual(arr1, arr2)) {
+                printArrayInLine(arr1);
                 succeed = false;
                 break;
             }
         }
         System.out.println(succeed ? "Nice!" : "Fucking fucked!");
 
-        int[] arr = generateRandomArray(maxSize, maxValue);
-        printArray(arr);
-        selectSort_1(arr);
-        printArray(arr);
+
     }
 }
