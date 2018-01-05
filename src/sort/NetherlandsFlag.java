@@ -28,6 +28,7 @@ public class NetherlandsFlag {
                 l++;
             }
         }
+
         /*
          * 划分完成之后
          * 0区域（小于区）:l到less
