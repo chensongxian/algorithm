@@ -5,9 +5,16 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Created with IntelliJ IDEA.
+ *
+ * @Description: 二分查找，得到B数组中不在A数组的数值
+ * @Author: csx
+ * @Date: 2017-11-19
+ */
 public class GetAllNotIncluded {
 
-    public static List<Integer> GetAllNotIncluded_1(int[] A,int[] B){
+    public static List<Integer> GetAllNotIncluded(int[] A,int[] B){
         List<Integer> res = new ArrayList<>();
         for (int i=0;i<B.length;i++){
             int l = 0;
@@ -19,6 +26,9 @@ public class GetAllNotIncluded {
                     contains = true;
                     break;
                 }
+                /*
+                 * A[mid]大于B[i],说明B[i]在A数组的位置是小于mid
+                 */
                 if(A[mid]>B[i]){
                     r = mid-1;
                 }else{
@@ -31,7 +41,8 @@ public class GetAllNotIncluded {
         }
         return res;
     }
-    // for test
+
+
     public static List<Integer> comparator(int[] A, int[] B) {
         List<Integer> res = new ArrayList<>();
         for (int i = 0; i < B.length; i++) {
@@ -49,7 +60,7 @@ public class GetAllNotIncluded {
         return res;
     }
 
-    // for test
+
     public static int[] generateRandomArray(int maxSize, int maxValue) {
         int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
         for (int i = 0; i < arr.length; i++) {
@@ -58,7 +69,7 @@ public class GetAllNotIncluded {
         return arr;
     }
 
-    // for test
+
     public static boolean isEqual(List<Integer> l1, List<Integer> l2) {
         if (l1.size() != l2.size()) {
             return false;
@@ -82,7 +93,7 @@ public class GetAllNotIncluded {
         return true;
     }
 
-    // for test
+
     public static void main(String[] args) {
         int testTime = 300000;
         int sortedArrayMaxSize = 300;
@@ -93,7 +104,7 @@ public class GetAllNotIncluded {
             int[] A = generateRandomArray(sortedArrayMaxSize, maxValue);
             int[] B = generateRandomArray(unsortedArrayMaxSize, maxValue);
             Arrays.sort(A);
-            List<Integer> res1 = GetAllNotIncluded_1(A, B);
+            List<Integer> res1 = GetAllNotIncluded(A, B);
             List<Integer> res2 = comparator(A, B);
             if (!isEqual(res1, res2)) {
                 succeed = false;

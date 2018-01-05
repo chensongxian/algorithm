@@ -2,18 +2,34 @@ package sort;
 
 import java.util.Arrays;
 
+import static sort.ArrayUtils.generateRandomArray;
+import static sort.ArrayUtils.printArray;
+import static sort.ArrayUtils.swap;
+
 /**
  * Created with IntelliJ IDEA.
  *
- * @Description: TODO
+ * @Description: 堆排序
  * @Author: csx
  * @Date: 2017-11-19
  */
 public class HeapSort {
+    /**
+     * 进行堆排序
+     * 任意一节点i:
+     * 父节点:(i-1)/2
+     * 左节点:i*2+1
+     * 右节点:i*2+2
+     * @param arr
+     */
     public static void heapSort(int[] arr){
-        if(arr==null||arr.length<2){
+        int minLength=2;
+        if(arr==null||arr.length<minLength){
             return;
         }
+        /*
+         * 构建大根堆，arr[0]是堆顶
+         */
         for(int i=0;i<arr.length;i++){
             heapInsert(arr,i);
         }
@@ -24,14 +40,26 @@ public class HeapSort {
          * 同时在把arr[0]和arr[--size]交换之后，做heapify调整已保证arr[0]位置的最大
          */
         int size = arr.length;
+        //把arr[0]和arr[size-1]交换,此时arr[size-1]是最大值
         swap(arr,0,--size);
         while (size>0){
+            /*
+             * 调整大根堆,再次构建0到size的大根堆，使arr[0]再次成为0到size的最大值
+             */
             heapify(arr,0,size);
             swap(arr,0,--size);
         }
     }
 
+    /**
+     * 调整堆，将节点和父节点作比较，不断调整堆
+     * @param arr
+     * @param index
+     */
     public static void heapInsert(int[] arr,int index){
+        /*
+         * (index-1)/2是父节点
+         */
         while (arr[index]>arr[(index-1)/2]){
             swap(arr,index,(index-1)/2);
             index = (index-1)/2;
@@ -45,13 +73,20 @@ public class HeapSort {
      * @param size
      */
     public static void heapify(int[] arr,int index,int size){
+        /*
+         * 下沉操作:将index与子节点作比较,通过此操作arr[index]再次成为最值,同时把原来arr[index]放到对的位置上
+         */
         int left = index*2+1;
         while (left<size){
+            //比较左节点和右节点
             int largest = left + 1 < size && arr[left + 1] > arr[left] ? left + 1 : left;
+            //比较较大子节点和父节点的大小
             largest = arr[largest] > arr[index] ? largest : index;
+            //表明index已经是最大值，直接break，不用再进行下沉操作
             if (largest == index) {
                 break;
             }
+            //交换较大值和父节点
             swap(arr, largest, index);
             index = largest;
             left = index * 2 + 1;
@@ -60,69 +95,8 @@ public class HeapSort {
         printArray(arr);
     }
 
-    public static void swap(int[] arr, int i, int j) {
-        int tmp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = tmp;
-    }
 
-    // for test
-    public static void comparator(int[] arr) {
-        Arrays.sort(arr);
-    }
 
-    // for test
-    public static int[] generateRandomArray(int maxSize, int maxValue) {
-        int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = (int) ((maxValue + 1) * Math.random()) - (int) (maxValue * Math.random());
-        }
-        return arr;
-    }
-
-    // for test
-    public static int[] copyArray(int[] arr) {
-        if (arr == null) {
-            return null;
-        }
-        int[] res = new int[arr.length];
-        for (int i = 0; i < arr.length; i++) {
-            res[i] = arr[i];
-        }
-        return res;
-    }
-
-    // for test
-    public static boolean isEqual(int[] arr1, int[] arr2) {
-        if ((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null)) {
-            return false;
-        }
-        if (arr1 == null && arr2 == null) {
-            return true;
-        }
-        if (arr1.length != arr2.length) {
-            return false;
-        }
-        for (int i = 0; i < arr1.length; i++) {
-            if (arr1[i] != arr2[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    // for test
-    public static void printArray(int[] arr) {
-        if (arr == null) {
-            return;
-        }
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + " ");
-        }
-        System.out.println();
-    }
-
-    // for test
     public static void main(String[] args) {
         int testTime = 500000;
         int maxSize = 10;
