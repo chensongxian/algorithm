@@ -2,22 +2,36 @@ package sort;
 
 import java.util.Arrays;
 
+import static sort.ArrayUtils.*;
+
 /**
  * Created with IntelliJ IDEA.
  *
- * @Description: TODO
+ * @Description: 归并排序
  * @Author: csx
  * @Date: 2017-11-19
  */
 public class MergeSort {
 
+    /**
+     * 进行归并排序
+     * @param arr
+     */
     public static void mergeSort(int[] arr){
-        if(arr==null||arr.length<2){
+        int minLength=2;
+        if(arr==null||arr.length<minLength){
             return;
         }
         mergeSort(arr,0,arr.length-1);
     }
 
+    /**
+     * 归并排序也是采用了分治的思想
+     * 各层分治递归，最后进行合并
+     * @param arr
+     * @param l
+     * @param r
+     */
     public static void mergeSort(int[] arr,int l,int r){
         if(l==r){
             return;
@@ -28,85 +42,47 @@ public class MergeSort {
         merge(arr,l,mid,r);
     }
 
+    /**
+     * 归并排序核心操作，合并数组
+     * @param arr
+     * @param l
+     * @param mid
+     * @param r
+     */
     public static void merge(int[] arr,int l,int mid,int r){
         int[] help = new int[r-l+1];
         int i = 0;
         int p1 = l;
         int p2 = mid+1;
+        /*
+         * 将arr[p1]和arr[p2]进行比较
+         * 并赋值给辅助方式help
+         */
         while (p1<=mid&&p2<=r){
             help[i++] = arr[p1]<arr[p2]?arr[p1++]:arr[p2++];
         }
+        /*
+         * 当p1<=mid时表明mid右边子数组还有没合并完的
+         */
         while (p1<=mid){
             help[i++] = arr[p1++];
         }
+         /*
+         * 当p2<=r时表明mid左边子数组还有没合并完的
+         */
         while (p2<=r){
             help[i++] = arr[p2++];
         }
 
+        /*
+         * 合并完的help数组已经有序，再把他赋值到原来的arr数组
+         */
         for (i = 0; i < help.length; i++) {
             arr[l + i] = help[i];
         }
 
     }
-    public static void swap(int[] arr, int i, int j) {
-        int temp = arr[i];
-        arr[i]=arr[j];
-        arr[j]=temp;
-    }
 
-    //用以测试比较
-    public static void comparator(int[] arr) {
-        Arrays.sort(arr);
-    }
-
-    public static int[] generateRandomArray(int maxSize, int maxValue) {
-        int[] arr = new int[(int) ((maxSize + 1) * Math.random())];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = (int) ((maxValue + 1) * Math.random() + (int) (maxValue) * Math.random());
-        }
-        return arr;
-    }
-
-    public static int[] copyArray(int[] arr) {
-        if (arr == null) {
-            return null;
-        }
-        int[] res = new int[arr.length];
-        for (int i = 0; i < arr.length; i++) {
-            res[i] = arr[i];
-        }
-        return res;
-    }
-
-    public static boolean isEqual(int[] arr1, int[] arr2) {
-        if ((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null)) {
-            return false;
-        }
-        if (arr1 == null && arr2 == null) {
-            return true;
-        }
-        if (arr1.length != arr2.length) {
-            return false;
-        }
-        for (int i = 0; i < arr1.length; i++) {
-            if (arr1[i] != arr2[i]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static void printArray(int[] arr){
-        if(arr==null){
-            return;
-        }
-        for(int i=0;i<arr.length;i++){
-            System.out.println(arr[i]+" ");
-        }
-        System.out.println();
-    }
-
-    // 测试
     public static void main(String[] args) {
         int testTime = 500000;
         int maxSize = 100;
