@@ -1,4 +1,4 @@
-package manacher;
+package sort;
 
 /**
  * Created with IntelliJ IDEA.
