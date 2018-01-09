@@ -1,7 +1,11 @@
 package manacher;
 
 /**
- * Created by Administrator on 2017/11/23.
+ * Created with IntelliJ IDEA.
+ *
+ * @Description: Manacher求最大回文长度
+ * @Author: csx
+ * @Date: 2018/01/05
  */
 public class ManacherCode {
 
@@ -81,7 +85,6 @@ public class ManacherCode {
     }
 
     public static void main(String[] args) {
-
         String str1 = "abc1234321ab";
         System.out.println(maxLcpsLength(str1));
     }
