@@ -1,9 +1,19 @@
 package manacher;
 
 /**
- * Created by Administrator on 2017/11/23.
+ * Created with IntelliJ IDEA.
+ *
+ * @Description: BFPRT,TOP-K问题，从n个元素中选出第k大的元素
+ * @Author: csx
+ * @Date: 2018/01/05
  */
 public class BFPRTCode {
+    /**
+     * 利用堆排序求TOP-K
+     * @param arr
+     * @param k
+     * @return
+     */
     public static int[] getMinKNumsByHeap(int[] arr,int k){
         if(k<1||k>arr.length){
             return arr;
@@ -30,17 +40,27 @@ public class BFPRTCode {
     }
 
     public static void  heapInsert(int[] arr,int value,int index){
+//        arr[index]=value;
+//        while (index!=0){
+//            int parent = (index-1)/2;
+//            if(arr[parent]<arr[index]){
+//                swap(arr,parent,index);
+//                index = parent;
+//            }else{
+//                break;
+//            }
+//        }
+
         arr[index]=value;
-        while (index!=0){
-            int parent = (index-1)/2;
-            if(arr[parent]<arr[index]){
-                swap(arr,parent,index);
-                index = parent;
-            }else{
-                break;
-            }
+        while (arr[index]>arr[(index-1)/2]){
+            swap(arr,index,(index-1)/2);
+            index=(index-1)/2;
         }
     }
+
+
+
+
 
     public static void heapify(int[] arr,int index,int heapSize){
         int left = index*2+1;
@@ -56,7 +76,12 @@ public class BFPRTCode {
         }
     }
 
-    // O(N)
+    /**
+     * BFPRT求TOP-K问题
+     * @param arr
+     * @param k
+     * @return
+     */
     public static int[] getMinKNumsByBFPRT(int[] arr, int k) {
         if (k < 1 || k > arr.length) {
             return arr;
@@ -75,6 +100,12 @@ public class BFPRTCode {
         return res;
     }
 
+    /**
+     * 获得第k小的元素
+     * @param arr
+     * @param K
+     * @return
+     */
     public static int getMinKthByBFPRT(int[] arr, int K) {
         int[] copyArr = copyArray(arr);
         return select(copyArr, 0, copyArr.length - 1, K - 1);
@@ -89,11 +120,15 @@ public class BFPRTCode {
     }
 
     public static int select(int[] arr, int begin, int end, int i) {
+        /*
+         * 递归调用终止条件
+         */
         if (begin == end) {
             return arr[begin];
         }
         int pivot = medianOfMedians(arr, begin, end);
         int[] pivotRange = partition(arr, begin, end, pivot);
+        //
         if (i >= pivotRange[0] && i <= pivotRange[1]) {
             return arr[i];
         } else if (i < pivotRange[0]) {
@@ -103,8 +138,19 @@ public class BFPRTCode {
         }
     }
 
+    /**
+     * 分组取中位数
+     * 把数组分成5个元素为一组,分别取中位数
+     * @param arr
+     * @param begin
+     * @param end
+     * @return
+     */
     public static int medianOfMedians(int[] arr, int begin, int end) {
         int num = end - begin + 1;
+        /*
+         * 判断数组长度是否是5的倍数，不是则要再加一个组
+         */
         int offset = num % 5 == 0 ? 0 : 1;
         int[] mArr = new int[num / 5 + offset];
         for (int i = 0; i < mArr.length; i++) {
@@ -112,9 +158,20 @@ public class BFPRTCode {
             int endI = beginI + 4;
             mArr[i] = getMedian(arr, beginI, Math.min(end, endI));
         }
+        /*
+         * 递归调用select方法，直到数组长度小于等于5，也就是刚好只能按5个元素一组只能划分成一组
+         */
         return select(mArr, 0, mArr.length - 1, mArr.length / 2);
     }
 
+    /**
+     * partition过程
+     * @param arr
+     * @param begin
+     * @param end
+     * @param pivotValue
+     * @return
+     */
     public static int[] partition(int[] arr, int begin, int end, int pivotValue) {
         int small = begin - 1;
         int cur = begin;
@@ -134,6 +191,13 @@ public class BFPRTCode {
         return range;
     }
 
+    /**
+     * 取中位数,当子数组长度为偶数时取上中位数
+     * @param arr
+     * @param begin
+     * @param end
+     * @return
+     */
     public static int getMedian(int[] arr, int begin, int end) {
         insertionSort(arr, begin, end);
         int sum = end + begin;
@@ -141,6 +205,12 @@ public class BFPRTCode {
         return arr[mid];
     }
 
+    /**
+     * 插入排序
+     * @param arr
+     * @param begin
+     * @param end
+     */
     public static void insertionSort(int[] arr, int begin, int end) {
         for (int i = begin + 1; i != end + 1; i++) {
             for (int j = i; j != begin; j--) {
@@ -168,9 +238,9 @@ public class BFPRTCode {
     }
 
     public static void main(String[] args) {
-        int[] arr = { 6, 9, 1, 3, 1, 2, 2, 5, 6, 1, 3, 5, 9, 7, 2, 5, 6, 1, 9 };
+        int[] arr = { 6, 9, 1, 3, 1, 2, 2, 5, 6, 1, 3, 5, 9, 7, 2, 5, 6, 1, 9,1 };
         // sorted : { 1, 1, 1, 1, 2, 2, 2, 3, 3, 5, 5, 5, 6, 6, 6, 7, 9, 9, 9 }
-//        printArray(getMinKNumsByHeap(arr,10));
+        printArray(getMinKNumsByHeap(arr,10));
         printArray(getMinKNumsByBFPRT(arr, 10));
 
     }
