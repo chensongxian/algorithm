@@ -3,7 +3,7 @@ package manacher;
 /**
  * Created with IntelliJ IDEA.
  *
- * @Description: TODO
+ * @Description: 添加最短字符串，使整个字符串成为回文字符串
  * @Author: csx
  * @Date: 2018/01/09
  */
@@ -40,6 +40,9 @@ public class ManacherShortestEnd {
                 pR = i + pArr[i];
                 index = i;
             }
+            /**
+             * 到达最后，只要把0-maxContainsEnd加到字符串末尾即可
+             */
             if (pR == charArr.length) {
                 maxContainsEnd = pArr[i];
                 break;
