@@ -5,7 +5,11 @@ import java.util.HashMap;
 /**
  * Created with IntelliJ IDEA.
  *
- * @Description: TODO
+ * @Description:
+ * 设计一种结构，在该结构中有如下三个功能
+ * insert(key):将某个key加入到该结构，做不到重复加入
+ * delete(key):将原本在结构中的某个key移除
+ * getRandom():等概率随机返回结构中的任何一个key
  * @Author: csx
  * @Date: 2018-01-13
  */
