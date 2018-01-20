@@ -8,6 +8,18 @@ package stack_queue;
  * @Date: 2018-01-13
  */
 public class ZigZagPrintMatrix {
+    /**
+     * 1 2 3 4
+     * 5 6 7 8
+     * 9 10 11 12
+     *
+     * t点和d点都从左上角出发
+     * t点沿矩阵第一行移动tC++,当达到第一行最右边的元素之后，再沿着矩阵最后一列移动tR++
+     * d点沿矩阵第一列移动dR++,当达到第一列最下边的元素时，再沿着矩阵最后一列移动dC++
+     * t点和d点同步移动，某次的t点和d点都构成一条斜线，打印斜线即可
+     * 注意每次打印方向相反，第一次打印1，第二次从2到5，第三次从9到3
+     * @param matrix
+     */
     public static void printMatrixZigZag(int[][] matrix) {
         int tR = 0;
         int tC = 0;
@@ -20,6 +32,7 @@ public class ZigZagPrintMatrix {
             printLevel(matrix, tR, tC, dR, dC, fromUp);
             tR = tC == endC ? tR + 1 : tR;
             tC = tC == endC ? tC : tC + 1;
+
             dC = dR == endR ? dC + 1 : dC;
             dR = dR == endR ? dR : dR + 1;
             fromUp = !fromUp;
