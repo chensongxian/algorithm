@@ -8,5 +8,6 @@ import static sort.ArrayUtils.*;
  * @Date: 2018/01/05
  */
 public class Test {
-
+    public static void main(String[] args) {
+    }
 }

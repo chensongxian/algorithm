@@ -22,6 +22,9 @@ public class MadianQuick {
         private PriorityQueue<Integer> maxHeap = new PriorityQueue<Integer>(new MaxHeapComparator());
         private PriorityQueue<Integer> minHeap = new PriorityQueue<Integer>(new MinHeapComparator());
 
+        /**
+         * 大根堆和小根堆size差不能超过1，超过1要及时做调整，保持平衡
+         */
         private void modifyTwoHeapsSize() {
             if (this.maxHeap.size() == this.minHeap.size() + 2) {
                 this.minHeap.add(this.maxHeap.poll());
@@ -31,6 +34,10 @@ public class MadianQuick {
             }
         }
 
+        /**
+         * 注意，添加num的规则可以随便定义，只要保持大根堆和小根堆的平衡即可
+         * @param num
+         */
         public void addNumber(int num) {
             if (this.maxHeap.isEmpty()) {
                 this.maxHeap.add(num);
@@ -90,7 +97,6 @@ public class MadianQuick {
         }
     }
 
-    // for test
     public static int[] getRandomArray(int maxLen, int maxValue) {
         int[] res = new int[(int) (Math.random() * maxLen) + 1];
         for (int i = 0; i != res.length; i++) {
@@ -99,7 +105,6 @@ public class MadianQuick {
         return res;
     }
 
-    // for test, this method is ineffective but absolutely right
     public static int getMedianOfArray(int[] arr) {
         int[] newArr = Arrays.copyOf(arr, arr.length);
         Arrays.sort(newArr);

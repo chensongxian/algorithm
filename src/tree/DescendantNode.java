@@ -3,7 +3,9 @@ package tree;
 /**
  * Created with IntelliJ IDEA.
  *
- * @Description: TODO
+ * @Description:
+ * 获取树上任意一节点的后继节点
+ * 后继节点：即中序遍历中，处于节点后面的节点即为后继节点
  * @Author: csx
  * @Date: 2018-01-27
  */
@@ -19,6 +21,14 @@ public class DescendantNode {
         }
     }
 
+    /**
+     * 后继节点的规律
+     * 1：如果节点右子树不为空，则该节点的后继节点为其子树的最左节点
+     * 2：不满足情况一的情况下，该节点的后继节点为一路往上找父节点中第一个为其父节点的左节点的父节点
+     * 通俗来说就是第一个向右转遇到的节点
+     * @param node
+     * @return
+     */
     public static Node getNextNode(Node node) {
         if (node == null) {
             return node;
@@ -45,6 +55,16 @@ public class DescendantNode {
         return node;
     }
 
+
+    public static void inOrderRecur(Node head) {
+        if (head == null) {
+            return;
+        }
+        inOrderRecur(head.left);
+        System.out.print(head.value + " ");
+        inOrderRecur(head.right);
+    }
+
     public static void main(String[] args) {
         Node head = new Node(6);
         head.parent = null;
@@ -66,6 +86,8 @@ public class DescendantNode {
         head.right.left.left.parent = head.right.left;
         head.right.right = new Node(10);
         head.right.right.parent = head.right;
+
+        inOrderRecur(head);
 
         Node test = head.left.left;
         System.out.println(test.value + " next: " + getNextNode(test).value);
