@@ -1,12 +1,13 @@
 package tree;
 
+import javax.print.DocFlavor;
 import java.util.Stack;
 
 /**
  * Created with IntelliJ IDEA.
  *
  * @Description:
- * 二叉树的
+ * 二叉树的遍历
  * @Author: csx
  * @Date: 2018-01-27
  */
@@ -21,6 +22,11 @@ public class PreInPosTraversal {
         }
     }
 
+    /**
+     * 先序遍历
+     * 先根后左后右
+     * @param head
+     */
     public static void preOrderRecur(Node head) {
         if (head == null) {
             return;
@@ -30,6 +36,11 @@ public class PreInPosTraversal {
         preOrderRecur(head.right);
     }
 
+    /**
+     * 中序遍历
+     * 先左后根后右
+     * @param head
+     */
     public static void inOrderRecur(Node head) {
         if (head == null) {
             return;
@@ -39,6 +50,11 @@ public class PreInPosTraversal {
         inOrderRecur(head.right);
     }
 
+    /**
+     * 后序遍历
+     * 先左后右后根
+     * @param head
+     */
     public static void posOrderRecur(Node head) {
         if (head == null) {
             return;
@@ -49,6 +65,11 @@ public class PreInPosTraversal {
     }
 
 
+    /**
+     * 先序遍历的非递归实现
+     * 先压右节点再压左节点，这样就能保证出栈的时候是左节点先出栈
+     * @param head
+     */
     public static void preOrderUnRecur(Node head) {
         System.out.print("pre-order: ");
         if (head != null) {
@@ -68,6 +89,11 @@ public class PreInPosTraversal {
         System.out.println();
     }
 
+
+    /**
+     * 中序遍历的非递归实现
+     * @param head
+     */
     public static void inOrderUnRecur(Node head) {
         System.out.print("in-order: ");
         if (head != null) {
@@ -86,6 +112,12 @@ public class PreInPosTraversal {
         System.out.println();
     }
 
+
+    /**
+     * 后序遍历非递归实现
+     *
+     * @param head
+     */
     public static void posOrderUnRecur1(Node head) {
         System.out.print("pos-order: ");
         if (head != null) {
@@ -109,6 +141,10 @@ public class PreInPosTraversal {
         System.out.println();
     }
 
+    /**
+     * 后序递归的非递归实现
+     * @param h
+     */
     public static void posOrderUnRecur2(Node h) {
         System.out.print("pos-order: ");
         if (h != null) {
@@ -117,6 +153,7 @@ public class PreInPosTraversal {
             Node c = null;
             while (!stack.isEmpty()) {
                 c = stack.peek();
+                //上一个打印节点不是当前节点的左节点和右节点，如果是当前节点的左节点或右节点说明已经打印
                 if (c.left != null && h != c.left && h != c.right) {
                     stack.push(c.left);
                 } else if (c.right != null && h != c.right) {
