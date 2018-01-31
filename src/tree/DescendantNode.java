@@ -107,7 +107,7 @@ public class DescendantNode {
         System.out.println(test.value + " next: " + getNextNode(test).value);
         test = head.right;
         System.out.println(test.value + " next: " + getNextNode(test).value);
-        test = head.right.right; // 10's next is null
+        test = head.right.right;
         System.out.println(test.value + " next: " + getNextNode(test));
     }
 
